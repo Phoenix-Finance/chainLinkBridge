@@ -1,11 +1,13 @@
 pragma solidity ^0.6.7;
 import "./modules/Operator.sol";
-import "./AggregatorV3Interface.sol";
+import "./interfaces/AggregatorV3Interface.sol";
+import "./interfaces/IERC20.sol";
 
 contract FNXOracle is Operator {
     mapping(uint256 => AggregatorV3Interface) underlyingsMap;
     mapping(address => AggregatorV3Interface) assetsMap;
     mapping(uint256 => uint256) private priceMap;
+    uint256 internal decimals = 1;
 
     /**
      * Network: Ropsten
@@ -18,6 +20,9 @@ contract FNXOracle is Operator {
         assetsMap[0x0000000000000000000000000000000000000000] = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
         assetsMap[0x4738635C82BED8F474D9A078F4E5797fa5d5f460] = AggregatorV3Interface(0xa24de01df22b63d23Ebc1882a5E3d4ec0d907bFB);
     }
+    function setDecimals(uint256 newDecimals) public onlyOwner{
+        decimals = newDecimals;
+    }
         /**
   * @notice retrieves price of an asset
   * @dev function to get price for an asset
@@ -28,7 +33,18 @@ contract FNXOracle is Operator {
         AggregatorV3Interface assetsPrice = assetsMap[asset];
         if (address(assetsPrice) != address(0)){
             (, int price,,,) = assetsPrice.latestRoundData();
-            return uint256(price); 
+            if (asset != address(0)){
+                IERC20 token = IERC20(asset);
+                uint256 tokenDecimals = uint256(token.decimals());
+                if (tokenDecimals < 18){
+                    return uint256(price)/decimals*(10**(18-tokenDecimals));  
+                }else if (tokenDecimals > 18){
+                    return uint256(price)/decimals/(10**(18-tokenDecimals)); 
+                }else{
+                    return uint256(price)/decimals;
+                }
+            }
+            return uint256(price)/decimals; 
         }else {
             return priceMap[uint256(asset)];
         }
@@ -37,7 +53,7 @@ contract FNXOracle is Operator {
         AggregatorV3Interface assetsPrice = underlyingsMap[underlying];
         if (address(assetsPrice) != address(0)){
             (, int price,,,) = assetsPrice.latestRoundData();
-            return uint256(price); 
+            return uint256(price)/decimals; 
         }else {
             return priceMap[underlying];
         }
@@ -84,7 +100,7 @@ contract FNXOracle is Operator {
     function getAssetsAggregator(address asset) public view returns (address) {
         return address(assetsMap[asset]);
     }
-    function setUnderlyingAggregator(uint256 underlying) public view returns (address) {
+    function getUnderlyingAggregator(uint256 underlying) public view returns (address) {
         return address(underlyingsMap[underlying]);
     }
 }

@@ -1,7 +1,7 @@
 pragma solidity ^0.6.7;
 import "./modules/Ownable.sol";
 import "./modules/Fraction.sol";
-import "./AggregatorV3Interface.sol";
+import "./interfaces/AggregatorV3Interface.sol";
 /**
  * @title Options Implied volatility calculation.
  * @dev A Smart-contract to calculate options Implied volatility.
