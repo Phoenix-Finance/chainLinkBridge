@@ -17,7 +17,6 @@ async function rinkebyQuery(){
     console.log("ETH Price :",price.toString(10));
     price = await oracle.methods.getPrice("0xB642Cef1cffD9cCEa0e6724887b722B27A3E7D23").call();
     console.log("FNX Price :",price.toString(10));
-    let iv = await new web3.eth.Contract(ImpliedVolatility.abi,"0x1771fbfe6d3dfa1a7882cf712910dcfd41a3e216");
 
 }
 async function calculateIv(volInstance,expiration,curprice,strikePrice){

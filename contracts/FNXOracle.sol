@@ -18,7 +18,7 @@ contract FNXOracle is Operator {
         underlyingsMap[1] = AggregatorV3Interface(0xECe365B379E1dD183B20fc5f022230C044d51404);
         underlyingsMap[2] = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
         assetsMap[0x0000000000000000000000000000000000000000] = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
-        assetsMap[0x4738635C82BED8F474D9A078F4E5797fa5d5f460] = AggregatorV3Interface(0xa24de01df22b63d23Ebc1882a5E3d4ec0d907bFB);
+//        assetsMap[0x4738635C82BED8F474D9A078F4E5797fa5d5f460] = AggregatorV3Interface(0xa24de01df22b63d23Ebc1882a5E3d4ec0d907bFB);
     }
     function setDecimals(uint256 newDecimals) public onlyOwner{
         decimals = newDecimals;
