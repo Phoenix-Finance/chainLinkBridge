@@ -4,7 +4,7 @@ let collateral0 = "0x0000000000000000000000000000000000000000";
 let web3 = new Web3(new Web3.providers.HttpProvider("https://demodex.wandevs.org:48545"));
 let BandOracle = require("../build/contracts/BandOracle.json");
 async function rinkebyQuery(){
-    let oracle = await new web3.eth.Contract(BandOracle.abi,"0x7c7925309baf18c24603926343d376282068f604");
+    let oracle = await new web3.eth.Contract(BandOracle.abi,"0xd9a9e16bbddfcf4f7d15fc7753c068cc8d671dee");
     let btcPrice = await oracle.methods.getUnderlyingPrice(1).call();
     console.log("btcPrice :",btcPrice.toString(10));
     let ethPrice = await oracle.methods.getUnderlyingPrice(2).call();
