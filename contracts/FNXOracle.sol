@@ -15,8 +15,7 @@ contract FNXOracle is Operator {
      * Address: 0x727B59d0989d6D1961138122BC9F94f534E82B32
      */
     constructor() public {
-        /*
-        mainnet
+        //mainnet
         assetsMap[1] = AggregatorV3Interface(0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c);
         assetsMap[2] = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
         assetsMap[3] = AggregatorV3Interface(0x24551a8Fb2A7211A25a17B1481f043A8a8adC7f2);
@@ -33,7 +32,7 @@ contract FNXOracle is Operator {
         decimalsMap[5] = 18;
         decimalsMap[uint256(0xeF9Cd7882c067686691B6fF49e650b43AFBBCC6B)] = 18;
         decimalsMap[uint256(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)] = 6;
-        */
+        /*
         //rinkeby
         assetsMap[1] = AggregatorV3Interface(0xECe365B379E1dD183B20fc5f022230C044d51404);
         assetsMap[2] = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
@@ -51,6 +50,7 @@ contract FNXOracle is Operator {
         decimalsMap[5] = 18;
         decimalsMap[uint256(0xaf30F6A6B09728a4e793ED6d9D0A7CcBa192c229)] = 18;
         decimalsMap[uint256(0xD12BC93Ac5eA2b4Ba99e0ffEd053a53B6d18C7a3)] = 6;
+        */
 
 
     }
@@ -110,7 +110,7 @@ contract FNXOracle is Operator {
             (, int price,,,) = assetsPrice.latestRoundData();
             (, int ethPrice,,,) = ethPrice.latestRoundData();
             uint256 tokenDecimals = decimalsMap[3];
-            uint256 mkrPrice = uint256(price*ethPrice)/decimals/1e8;
+            uint256 mkrPrice = uint256(price*ethPrice)/decimals/1e18;
             if (tokenDecimals < 18){
                 return mkrPrice/decimals*(10**(18-tokenDecimals));  
             }else if (tokenDecimals > 18){
