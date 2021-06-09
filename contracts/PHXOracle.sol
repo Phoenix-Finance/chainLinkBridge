@@ -2,8 +2,8 @@ pragma solidity ^0.6.7;
 import "./modules/Operator.sol";
 import "./interfaces/AggregatorV3Interface.sol";
 import "./interfaces/IERC20.sol";
-
-contract FNXOracle is Operator {
+//1 - btc 2 eth 6 bnb
+contract PHXOracle is Operator {
     mapping(uint256 => AggregatorV3Interface) private assetsMap;
     mapping(uint256 => uint256) private decimalsMap;
     mapping(uint256 => uint256) private priceMap;
@@ -15,6 +15,26 @@ contract FNXOracle is Operator {
      * Address: 0x727B59d0989d6D1961138122BC9F94f534E82B32
      */
     constructor() public {
+        //bsc
+        assetsMap[0] = AggregatorV3Interface(0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE);
+        assetsMap[1] = AggregatorV3Interface(0x264990fbd0A4796A3E3d8E37C4d5F87a3aCa5Ebf);
+        assetsMap[2] = AggregatorV3Interface(0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e);
+        assetsMap[6] = AggregatorV3Interface(0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE);
+        //eth
+        assetsMap[uint256(0x2170Ed0880ac9A755fd29B2688956BD959F933F8)] = AggregatorV3Interface(0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e);
+        //btc
+        assetsMap[uint256(0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c)] = AggregatorV3Interface(0x264990fbd0A4796A3E3d8E37C4d5F87a3aCa5Ebf);
+        //busd
+        assetsMap[uint256(0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56)] = AggregatorV3Interface(0xcBb98864Ef56E9042e7d2efef76141f15731B82f);
+        
+        decimalsMap[0] = 18;
+        decimalsMap[1] = 18;
+        decimalsMap[2] = 18;
+        decimalsMap[6] = 18;
+        decimalsMap[uint256(0x2170Ed0880ac9A755fd29B2688956BD959F933F8)] = 18;
+        decimalsMap[uint256(0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c)] = 18;
+        decimalsMap[uint256(0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56)] = 18;
+        /*
         //mainnet
         assetsMap[1] = AggregatorV3Interface(0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c);
         assetsMap[2] = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
@@ -32,6 +52,7 @@ contract FNXOracle is Operator {
         decimalsMap[5] = 18;
         decimalsMap[uint256(0xeF9Cd7882c067686691B6fF49e650b43AFBBCC6B)] = 18;
         decimalsMap[uint256(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)] = 6;
+        */
         /*
         //rinkeby
         assetsMap[1] = AggregatorV3Interface(0xECe365B379E1dD183B20fc5f022230C044d51404);
@@ -105,10 +126,10 @@ contract FNXOracle is Operator {
     }
     function getMKRPrice() internal view returns (uint256) {
         AggregatorV3Interface assetsPrice = assetsMap[3];
-        AggregatorV3Interface ethPrice = assetsMap[0];
-        if (address(assetsPrice) != address(0) && address(ethPrice) != address(0)){
+        AggregatorV3Interface ethPriceAggregate = assetsMap[0];
+        if (address(assetsPrice) != address(0) && address(ethPriceAggregate) != address(0)){
             (, int price,,,) = assetsPrice.latestRoundData();
-            (, int ethPrice,,,) = ethPrice.latestRoundData();
+            (, int ethPrice,,,) = ethPriceAggregate.latestRoundData();
             uint256 tokenDecimals = decimalsMap[3];
             uint256 mkrPrice = uint256(price*ethPrice)/decimals/1e18;
             if (tokenDecimals < 18){
