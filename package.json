@@ -4,7 +4,8 @@
   "description": "",
   "main": "truffle-config.js",
   "dependencies": {
-    "@truffle/hdwallet-provider": "^1.0.43"
+    "@truffle/hdwallet-provider": "^1.0.43",
+    "etherscan-api": "^10.0.5"
   },
   "devDependencies": {},
   "scripts": {
