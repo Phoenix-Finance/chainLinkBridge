@@ -2,6 +2,7 @@ pragma solidity ^0.6.7;
 import "./modules/Operator.sol";
 import "./interfaces/AggregatorV3Interface.sol";
 import "./interfaces/IERC20.sol";
+<<<<<<< HEAD:contracts/PHXOracle.sol
 
 contract PHXOracle is Operator {
     mapping(uint256 => AggregatorV3Interface) internal assetsMap;
@@ -9,6 +10,81 @@ contract PHXOracle is Operator {
     mapping(uint256 => uint256) internal priceMap;
     uint256 internal decimals = 1;
 
+=======
+//1 - btc 2 eth 6 bnb
+contract PHXOracle is Operator {
+    mapping(uint256 => AggregatorV3Interface) private assetsMap;
+    mapping(uint256 => uint256) private decimalsMap;
+    mapping(uint256 => uint256) private priceMap;
+    uint256 internal decimals = 1;
+
+    /**
+     * Network: Ropsten
+     * Aggregator: LTC/USD
+     * Address: 0x727B59d0989d6D1961138122BC9F94f534E82B32
+     */
+    constructor() public {
+        //bsc
+        assetsMap[0] = AggregatorV3Interface(0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE);
+        assetsMap[1] = AggregatorV3Interface(0x264990fbd0A4796A3E3d8E37C4d5F87a3aCa5Ebf);
+        assetsMap[2] = AggregatorV3Interface(0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e);
+        assetsMap[6] = AggregatorV3Interface(0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE);
+        //eth
+        assetsMap[uint256(0x2170Ed0880ac9A755fd29B2688956BD959F933F8)] = AggregatorV3Interface(0x9ef1B8c0E4F7dc8bF5719Ea496883DC6401d5b2e);
+        //btc
+        assetsMap[uint256(0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c)] = AggregatorV3Interface(0x264990fbd0A4796A3E3d8E37C4d5F87a3aCa5Ebf);
+        //busd
+        assetsMap[uint256(0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56)] = AggregatorV3Interface(0xcBb98864Ef56E9042e7d2efef76141f15731B82f);
+        
+        decimalsMap[0] = 18;
+        decimalsMap[1] = 18;
+        decimalsMap[2] = 18;
+        decimalsMap[6] = 18;
+        decimalsMap[uint256(0x2170Ed0880ac9A755fd29B2688956BD959F933F8)] = 18;
+        decimalsMap[uint256(0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c)] = 18;
+        decimalsMap[uint256(0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56)] = 18;
+        /*
+        //mainnet
+        assetsMap[1] = AggregatorV3Interface(0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c);
+        assetsMap[2] = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
+        assetsMap[3] = AggregatorV3Interface(0x24551a8Fb2A7211A25a17B1481f043A8a8adC7f2);
+        assetsMap[4] = AggregatorV3Interface(0xDC3EA94CD0AC27d9A86C180091e7f78C683d3699);
+        assetsMap[5] = AggregatorV3Interface(0x2c1d072e956AFFC0D435Cb7AC38EF18d24d9127c);
+        assetsMap[0] = AggregatorV3Interface(0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419);
+        assetsMap[uint256(0xeF9Cd7882c067686691B6fF49e650b43AFBBCC6B)] = AggregatorV3Interface(0x80070f7151BdDbbB1361937ad4839317af99AE6c);
+        priceMap[uint256(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)] = 1e20;
+        decimalsMap[0] = 18;
+        decimalsMap[1] = 18;
+        decimalsMap[2] = 18;
+        decimalsMap[3] = 18;
+        decimalsMap[4] = 18;
+        decimalsMap[5] = 18;
+        decimalsMap[uint256(0xeF9Cd7882c067686691B6fF49e650b43AFBBCC6B)] = 18;
+        decimalsMap[uint256(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)] = 6;
+        */
+        /*
+        //rinkeby
+        assetsMap[1] = AggregatorV3Interface(0xECe365B379E1dD183B20fc5f022230C044d51404);
+        assetsMap[2] = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
+        assetsMap[3] = AggregatorV3Interface(0xd8bD0a1cB028a31AA859A21A3758685a95dE4623);
+        assetsMap[4] = AggregatorV3Interface(0xE96C4407597CD507002dF88ff6E0008AB41266Ee);
+        assetsMap[5] = AggregatorV3Interface(0xd8bD0a1cB028a31AA859A21A3758685a95dE4623);
+        assetsMap[0] = AggregatorV3Interface(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
+        assetsMap[uint256(0xaf30F6A6B09728a4e793ED6d9D0A7CcBa192c229)] = AggregatorV3Interface(0xcf74110A02b1D391B27cE37364ABc3b279B1d9D1);
+        priceMap[uint256(0xD12BC93Ac5eA2b4Ba99e0ffEd053a53B6d18C7a3)] = 1e20;
+        decimalsMap[0] = 18;
+        decimalsMap[1] = 18;
+        decimalsMap[2] = 18;
+        decimalsMap[3] = 18;
+        decimalsMap[4] = 18;
+        decimalsMap[5] = 18;
+        decimalsMap[uint256(0xaf30F6A6B09728a4e793ED6d9D0A7CcBa192c229)] = 18;
+        decimalsMap[uint256(0xD12BC93Ac5eA2b4Ba99e0ffEd053a53B6d18C7a3)] = 6;
+        */
+
+
+    }
+>>>>>>> 6a9f7a474a338d3c3155e511814e29c9bc3442c5:contracts/FNXOracle.sol
     function setDecimals(uint256 newDecimals) public onlyOwner{
         decimals = newDecimals;
     }
@@ -60,10 +136,10 @@ contract PHXOracle is Operator {
     }
     function getMKRPrice() internal view returns (uint256) {
         AggregatorV3Interface assetsPrice = assetsMap[3];
-        AggregatorV3Interface ethPrice = assetsMap[0];
-        if (address(assetsPrice) != address(0) && address(ethPrice) != address(0)){
+        AggregatorV3Interface ethPriceAggregate = assetsMap[0];
+        if (address(assetsPrice) != address(0) && address(ethPriceAggregate) != address(0)){
             (, int price,,,) = assetsPrice.latestRoundData();
-            (, int ethPrice,,,) = ethPrice.latestRoundData();
+            (, int ethPrice,,,) = ethPriceAggregate.latestRoundData();
             uint256 tokenDecimals = decimalsMap[3];
             uint256 mkrPrice = uint256(price*ethPrice)/decimals/1e18;
             if (tokenDecimals < 18){
